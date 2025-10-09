@@ -2,20 +2,18 @@ package com.rift.proximityTextChat.events;
 
 import com.github.puregero.multilib.MultiLib;
 import com.rift.proximityTextChat.Config;
-import com.rift.proximityTextChat.renderer.CoreMinecraftNodeRenderer;
+import com.rift.proximityTextChat.renderer.TextComponentNodeRenderer;
 import io.papermc.paper.event.player.AsyncChatEvent;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.format.TextDecoration;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.commonmark.node.Node;
 import org.commonmark.parser.Parser;
-import org.commonmark.renderer.Renderer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -89,7 +87,7 @@ public class OnChatMessage implements Listener {
         Parser parser = Parser.builder().build();
         Node message = parser.parse(original.content());
 
-        var renderer = new CoreMinecraftNodeRenderer();
+        var renderer = new TextComponentNodeRenderer();
         renderer.render(message);
 
         return renderer.toComponent();

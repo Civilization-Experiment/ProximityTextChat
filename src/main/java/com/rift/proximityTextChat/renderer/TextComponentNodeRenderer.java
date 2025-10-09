@@ -13,8 +13,8 @@ import java.util.Arrays;
 import java.util.Set;
 import java.util.Stack;
 
-public class CoreMinecraftNodeRenderer extends AbstractVisitor implements NodeRenderer {
-    private final Logger logger = LoggerFactory.getLogger(CoreMinecraftNodeRenderer.class);
+public class TextComponentNodeRenderer extends AbstractVisitor implements NodeRenderer {
+    private final Logger logger = LoggerFactory.getLogger(TextComponentNodeRenderer.class);
     private final Stack<TextComponent.Builder> components = new Stack<>();
 
     public TextComponent toComponent() {
