@@ -1,5 +1,6 @@
 package com.rift.proximityTextChat.commands;
 
+import com.github.puregero.multilib.MultiLib;
 import com.rift.proximityTextChat.Config;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
@@ -12,8 +13,9 @@ public class ReloadPTCConfig implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         String successMessage = Config.load();
-        Bukkit.broadcast(Component.text(successMessage), "pvptoggle.use");
-        Bukkit.broadcast(Component.text("New content: " + Config.getCurrentSettings().toString()), "pvptoggle.use");
+        Bukkit.broadcast(Component.text(successMessage), "ptc.use");
+        Bukkit.broadcast(Component.text("New content: " + Config.getCurrentSettings().toString()), "ptc.use");
+        MultiLib.notify("pvp-toggle:reload-config", "");
         return true;
     }
 }

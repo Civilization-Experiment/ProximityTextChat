@@ -1,7 +1,6 @@
 package com.rift.proximityTextChat.renderer;
 
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.ComponentBuilder;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.commonmark.node.*;
@@ -15,31 +14,21 @@ import java.util.Stack;
 
 public class TextComponentNodeRenderer extends AbstractVisitor implements NodeRenderer {
     private final Logger logger = LoggerFactory.getLogger(TextComponentNodeRenderer.class);
-    private final Stack<TextComponent.Builder> components = new Stack<>();
+    private final Stack<TextDecoration> decorators = new Stack<>();
+    private final TextComponent.Builder builder = Component.text();
 
     public TextComponent toComponent() {
-        return components.pop().build();
+        return builder.build();
     }
 
     @Override
     public Set<Class<? extends Node>> getNodeTypes() {
         return Set.of(
                 Document.class,
-                Image.class,
                 Emphasis.class,
                 StrongEmphasis.class,
                 Text.class
         );
-    }
-
-    @Override
-    protected void visitChildren(Node parent) {
-        Node node = parent.getFirstChild();
-        while (node != null) {
-            Node next = node.getNext();
-            node.accept(this);
-            node = next;
-        }
     }
 
     @Override
@@ -48,60 +37,28 @@ public class TextComponentNodeRenderer extends AbstractVisitor implements NodeRe
     }
 
     @Override
-    public void visit(Document document) {
-        // No rendering itself
-        visitChildren(document);
-    }
-
-//    @Override
-//    public void visit(Link link) {
-//        Map<String, String> attrs = new LinkedHashMap<>();
-//        String url = link.getDestination();
-//
-//        if (context.shouldSanitizeUrls()) {
-//            url = context.urlSanitizer().sanitizeLinkUrl(url);
-//            attrs.put("rel", "nofollow");
-//        }
-//
-//        url = context.encodeUrl(url);
-//        attrs.put("href", url);
-//        if (link.getTitle() != null) {
-//            attrs.put("title", link.getTitle());
-//        }
-//        html.tag("a", getAttrs(link, "a", attrs));
-//        visitChildren(link);
-//        html.tag("/a");
-//    }
-
-    @Override
     public void visit(Emphasis emphasis) {
-        logger.info("Encountered emphasis {}", stack());
-        components.peek().append(Component.text().decorate(TextDecoration.ITALIC));
-        components.push(Component.text());
+        decorators.push(TextDecoration.ITALIC);
+//        logger.info("Encountered emphasis, stack dump : {}", stackDump());
         visitChildren(emphasis);
-        components.pop();
+        decorators.pop();
     }
 
     @Override
     public void visit(StrongEmphasis strongEmphasis) {
-        logger.info("Encountered strong emphasis {}", stack());
-        components.peek().append(Component.text().decorate(TextDecoration.BOLD));
-        components.push(Component.text());
+        decorators.push(TextDecoration.BOLD);
+//        logger.info("Encountered strong emphasis, stack dump : {}", stackDump());
         visitChildren(strongEmphasis);
-        components.pop();
+        decorators.pop();
     }
 
     @Override
     public void visit(Text text) {
-        logger.info("Encountered text {}, {}", text.getLiteral(), stack());
-        components.peek().append(Component.text().content(text.getLiteral()));
+//        logger.info("Encountered text with content {}, stack dump : {}", text.getLiteral(), stackDump());
+        builder.append(Component.text(text.getLiteral()).decorate(decorators.toArray(new TextDecoration[] {})));
     }
 
-    public String stack() {
-        return Arrays.toString(components.stream().map(ComponentBuilder::build).map(this::toSimpleStr).toArray());
-    }
-
-    public String toSimpleStr(TextComponent t) {
-        return t.content() + t.style().decorations();
+    private String stackDump() {
+        return Arrays.toString(decorators.toArray());
     }
 }

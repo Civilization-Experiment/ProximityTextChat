@@ -17,6 +17,8 @@ import org.commonmark.parser.Parser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Arrays;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class OnChatMessage implements Listener {
@@ -24,15 +26,19 @@ public class OnChatMessage implements Listener {
 
     @EventHandler
     public void onChatMessage(AsyncChatEvent e) {
-//        TextComponent formattedOriginalMessage = formatMessage((TextComponent) e.message());
-        TextComponent formattedOriginalMessage = ((TextComponent) e.message());
+        TextComponent formattedOriginalMessage = formatMessage((TextComponent) e.message());
 
         // User can type blank message due to formatter, cancel them.
-//        if (formattedOriginalMessage.content().isBlank()) {
-//            logger.info("was empty: {}", formattedOriginalMessage.content());
-//            e.setCancelled(true);
-//            return;
-//        }
+        if (formattedOriginalMessage.children().stream().anyMatch(c -> ((TextComponent) c).content().isBlank())) {
+//            logger.info("{} sent empty message: {}",
+//                    e.getPlayer().displayName(),
+//                    Arrays.toString(formattedOriginalMessage
+//                            .children()
+//                            .stream()
+//                            .map(c -> ((TextComponent) c).content()).toArray()));
+            e.setCancelled(true);
+            return;
+        }
 
         // Operators get to chat to everyone in a funny format
         if (e.getPlayer().isOp()) {
@@ -84,7 +90,9 @@ public class OnChatMessage implements Listener {
 
     // Parse Markdown features (bold, italics, underline, strikethrough)
     private TextComponent formatMessage(TextComponent original) {
-        Parser parser = Parser.builder().build();
+        Parser parser = Parser.builder()
+                .enabledBlockTypes(Set.of())
+                .build();
         Node message = parser.parse(original.content());
 
         var renderer = new TextComponentNodeRenderer();
