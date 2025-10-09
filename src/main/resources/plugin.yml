@@ -1,0 +1,14 @@
+name: ProximityTextChat
+version: '1.0-SNAPSHOT'
+main: com.rift.proximityTextChat.ProximityTextChat
+api-version: '1.20'
+commands:
+  reloadPTC:
+    description: Reloads PTC plugin config file
+    usage: /reloadPTC
+    permission: ptc.use
+    permission-message: §cYou do not have permission to use this command.
+permissions:
+  ptc.use:
+    description: If a user can use the PTC commands.
+    default: op
