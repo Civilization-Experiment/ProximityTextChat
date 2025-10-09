@@ -58,12 +58,12 @@ public class OnChatMessage implements Listener {
         TextComponent formattedMessageUsers = Component.text()
                 .append(sender.displayName().colorIfAbsent(NamedTextColor.WHITE))
                 .append(Component.text(" » ", NamedTextColor.DARK_GRAY, TextDecoration.BOLD))
-                .append(e.message().color(NamedTextColor.GRAY))
+                .append(formattedOriginalMessage.color(NamedTextColor.GRAY))
                 .build();
         TextComponent formattedMessageOperators = Component.text()
                 .append(sender.displayName().colorIfAbsent(TextColor.color(0x6d6d6d)))
                 .append(Component.text(" » ", NamedTextColor.DARK_GRAY, TextDecoration.BOLD))
-                .append(e.message().color(TextColor.color(0x6d6d6d)))
+                .append(formattedOriginalMessage.color(TextColor.color(0x6d6d6d)))
                 .decorate(TextDecoration.ITALIC)
                 .build();
 
@@ -85,7 +85,7 @@ public class OnChatMessage implements Listener {
             // Normal players not in range don't see anything
         });
 
-        logger.info("{} (seen by {}) » {}", e.getPlayer().displayName(), receivers, ((TextComponent) e.message()).content());
+        logger.info("{} (seen by {}) » {}", e.getPlayer().displayName(), receivers, formattedOriginalMessage.content());
     }
 
     // Parse Markdown features (bold, italics, underline, strikethrough)
