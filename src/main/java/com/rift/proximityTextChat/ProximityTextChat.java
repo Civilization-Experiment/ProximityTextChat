@@ -2,6 +2,7 @@ package com.rift.proximityTextChat;
 
 import com.github.puregero.multilib.MultiLib;
 import com.rift.proximityTextChat.commands.CommandRegistrar;
+import com.rift.proximityTextChat.commands.MsgCommand;
 import com.rift.proximityTextChat.commands.ReloadPTCConfig;
 import com.rift.proximityTextChat.events.OnChatMessage;
 import org.bukkit.Bukkit;
@@ -29,6 +30,17 @@ public final class ProximityTextChat extends JavaPlugin {
                 "ptc.use",
                 "§cYou do not have permission to use this command."
         ).setExecutor(new ReloadPTCConfig());
+
+        MsgCommand msgcmd = new MsgCommand();
+        CommandRegistrar.register(
+                this,
+                "msg",
+                "Message Command",
+                "/msg <player> [message]",
+                java.util.Arrays.asList(),
+                "ptc.msg",
+                "§cYou do not have permission to use this command."
+        ).setExecutor(msgcmd);
 
         MultiLib.onString(this, "rift.ptc:reload-config", data -> {
             logger.info("Received message to reload config for PTC plugin.");

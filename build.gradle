@@ -69,3 +69,7 @@ processResources {
         expand props
     }
 }
+
+shadowJar {
+    relocate("com.github.puregero.multilib", "com.rift.proximityTextChat.mulitlib")
+}

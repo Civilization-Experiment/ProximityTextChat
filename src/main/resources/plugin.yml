@@ -8,6 +8,11 @@ commands:
     usage: /reloadPTC
     permission: ptc.use
     permission-message: §cYou do not have permission to use this command.
+  msg:
+    description: sends a private msg to a player
+    usage: /msg <player> [message]
+    permission: ptc.msg
+    permission-message: §cYou do not have permission to use this command.
 permissions:
   ptc.use:
     description: If a user can use the PTC commands.
