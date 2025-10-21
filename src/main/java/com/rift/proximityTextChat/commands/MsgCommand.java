@@ -32,27 +32,27 @@ public class MsgCommand implements TabExecutor {
             TextComponent formattedOriginalMessage = formateMsg(args);
 
             TextComponent MsgforSender  = Component.text()
-                    .append(Component.text("You", NamedTextColor.WHITE))
-                    .append(Component.text(" » ", NamedTextColor.DARK_BLUE, TextDecoration.BOLD))
-                    .append(target.displayName().colorIfAbsent(NamedTextColor.WHITE))
-                    .append(Component.text(": ", NamedTextColor.DARK_BLUE, TextDecoration.BOLD))
-                    .append(formattedOriginalMessage.color(NamedTextColor.BLUE))
+                    .append(Component.text("You", NamedTextColor.AQUA))
+                    .append(Component.text(" → ", NamedTextColor.AQUA))
+                    .append(target.displayName().colorIfAbsent(NamedTextColor.AQUA))
+                    .append(Component.text(" » ", NamedTextColor.DARK_GRAY, TextDecoration.BOLD))
+                    .append(formattedOriginalMessage.color(NamedTextColor.WHITE))
                     .build();
 
             TextComponent MsgforTarget  = Component.text()
-                    .append(msger.displayName().colorIfAbsent(NamedTextColor.WHITE))
-                    .append(Component.text(" » ", NamedTextColor.DARK_GRAY, TextDecoration.BOLD))
-                    .append(Component.text("You", NamedTextColor.WHITE))
-                    .append(Component.text(": ", NamedTextColor.DARK_GRAY, TextDecoration.BOLD))
-                    .append(formattedOriginalMessage.color(NamedTextColor.BLUE))
+                    .append(msger.displayName().colorIfAbsent(NamedTextColor.AQUA))
+                    .append(Component.text(" → ", NamedTextColor.AQUA))
+                    .append(Component.text("You", NamedTextColor.AQUA))
+                    .append(Component.text(" » ",  NamedTextColor.DARK_GRAY, TextDecoration.BOLD))
+                    .append(formattedOriginalMessage.color(NamedTextColor.WHITE))
                     .build();
 
             TextComponent MsgforOp  = Component.text()
-                    .append(msger.displayName().colorIfAbsent(NamedTextColor.WHITE))
-                    .append(Component.text(" » ", NamedTextColor.DARK_GRAY, TextDecoration.BOLD))
-                    .append(target.displayName().colorIfAbsent(NamedTextColor.WHITE))
-                    .append(Component.text(": ", NamedTextColor.DARK_GRAY, TextDecoration.BOLD))
-                    .append(formattedOriginalMessage.color(NamedTextColor.BLUE))
+                    .append(msger.displayName().colorIfAbsent(NamedTextColor.AQUA))
+                    .append(Component.text(" → ", NamedTextColor.AQUA))
+                    .append(target.displayName().colorIfAbsent(NamedTextColor.AQUA))
+                    .append(Component.text(" » ",  NamedTextColor.DARK_GRAY, TextDecoration.BOLD))
+                    .append(formattedOriginalMessage.color(NamedTextColor.WHITE))
                     .build();
 
             msger.sendMessage(MsgforSender);
@@ -60,7 +60,7 @@ public class MsgCommand implements TabExecutor {
 
             Bukkit.getOperators().forEach(op -> {
                 Player opPlayer = op.getPlayer();
-                if (opPlayer != null)
+                if (opPlayer != null && opPlayer != msger && opPlayer != target)
                     opPlayer.sendMessage(MsgforOp);
             });
         }

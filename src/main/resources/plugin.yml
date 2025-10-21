@@ -11,6 +11,7 @@ commands:
   msg:
     description: sends a private msg to a player
     usage: /msg <player> [message]
+    aliases: [message, w, whisper]
     permission: ptc.msg
     permission-message: §cYou do not have permission to use this command.
 permissions:
