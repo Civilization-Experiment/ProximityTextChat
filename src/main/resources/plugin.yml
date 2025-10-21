@@ -14,8 +14,10 @@ commands:
     aliases: [message, w, whisper]
     permission: ptc.msg
     permission-message: §cYou do not have permission to use this command.
-    default: true
 permissions:
   ptc.use:
     description: If a user can use the PTC commands.
     default: op
+  ptc.msg:
+    description: If a user can send private msgs.
+    default: true
