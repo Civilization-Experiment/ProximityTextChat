@@ -36,7 +36,7 @@ public final class ProximityTextChat extends JavaPlugin {
                 this,
                 "msg",
                 "Message Command",
-                "/msg <player> [message]",
+                "/msg <player> <message>",
                 java.util.Arrays.asList("w", "whisper", "message"),
                 "ptc.msg",
                 "§cYou do not have permission to use this command."
