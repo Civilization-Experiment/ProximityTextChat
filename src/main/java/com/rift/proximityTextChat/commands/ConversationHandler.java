@@ -44,9 +44,12 @@ public class ConversationHandler {
                 .append(formattedMessage.color(TextColor.color(0x6d6d6d)).decorate(TextDecoration.ITALIC))
                 .build();
 
-        setPlayerConversation(sender, target);
         sender.sendMessage(messageToRecipients);
-        target.sendMessage(messageToRecipients);
+        if (sender != target) {
+            setPlayerConversation(sender, target);
+            target.sendMessage(messageToRecipients);
+        }
+
         logger.info("{} whispers to {} » {}", sender.getName(), target.getName(), rawMessage);
 
         MultiLib.getAllOnlinePlayers().stream()
