@@ -45,7 +45,7 @@ public class ConversationHandler {
                 .build();
 
         sender.sendMessage(messageToRecipients);
-        if (sender != target) {
+        if (!sender.getUniqueId().equals(target.getUniqueId())) {
             setPlayerConversation(sender, target);
             target.sendMessage(messageToRecipients);
         }
