@@ -5,10 +5,14 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-public class ReplyCommand implements CommandExecutor {
+import java.util.List;
+
+public class ReplyCommand implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(@NotNull CommandSender _sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (!(_sender instanceof Player sender)) {
@@ -41,5 +45,11 @@ public class ReplyCommand implements CommandExecutor {
 
         ConversationHandler.finallyWhisper(sender, target, rawMessage);
         return true;
+    }
+
+    @Override
+    public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+        // Override with always empty to not return the stupid player list every time you put a space
+        return List.of();
     }
 }
