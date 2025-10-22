@@ -17,7 +17,6 @@ import org.commonmark.parser.Parser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Arrays;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -30,12 +29,6 @@ public class OnChatMessage implements Listener {
 
         // User can type blank message due to formatter, cancel them.
         if (formattedOriginalMessage.children().stream().anyMatch(c -> ((TextComponent) c).content().isBlank())) {
-//            logger.info("{} sent empty message: {}",
-//                    e.getPlayer().displayName(),
-//                    Arrays.toString(formattedOriginalMessage
-//                            .children()
-//                            .stream()
-//                            .map(c -> ((TextComponent) c).content()).toArray()));
             e.setCancelled(true);
             return;
         }
