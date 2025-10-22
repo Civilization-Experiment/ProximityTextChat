@@ -9,9 +9,15 @@ commands:
     permission: ptc.use
     permission-message: §cYou do not have permission to use this command.
   msg:
-    description: sends a private msg to a player
-    usage: /msg <player> [message]
-    aliases: [message, w, whisper]
+    description: Sends a private msg to a player
+    usage: /msg <player> <message>
+    aliases: [message, w, whisper, tell, t]
+    permission: ptc.msg
+    permission-message: §cYou do not have permission to use this command.
+  reply:
+    description: Replies with a private msg to a player
+    usage: /reply <message>
+    aliases: [reply, r]
     permission: ptc.msg
     permission-message: §cYou do not have permission to use this command.
 permissions:
@@ -19,5 +25,5 @@ permissions:
     description: If a user can use the PTC commands.
     default: op
   ptc.msg:
-    description: If a user can send private msgs.
+    description: If a user can send private messages.
     default: true
