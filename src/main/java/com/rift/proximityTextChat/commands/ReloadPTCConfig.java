@@ -15,7 +15,7 @@ public class ReloadPTCConfig implements CommandExecutor {
         String successMessage = Config.load();
         Bukkit.broadcast(Component.text(successMessage), "ptc.use");
         Bukkit.broadcast(Component.text("New content: " + Config.getCurrentSettings().toString()), "ptc.use");
-        MultiLib.notify("pvp-toggle:reload-config", "");
+        MultiLib.notify("rift.ptc:reload-config", "");
         return true;
     }
 }

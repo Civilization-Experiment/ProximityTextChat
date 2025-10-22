@@ -26,21 +26,20 @@ public final class ProximityTextChat extends JavaPlugin {
                 "reloadPTC",
                 "Reloads PTC plugin config file.",
                 "/reloadPTC",
-                List.of(new String[]{}),
+                List.of(),
                 "ptc.use",
                 "§cYou do not have permission to use this command."
         ).setExecutor(new ReloadPTCConfig());
 
-        MsgCommand msgcmd = new MsgCommand();
         CommandRegistrar.register(
                 this,
                 "msg",
                 "Message Command",
                 "/msg <player> <message>",
-                java.util.Arrays.asList("w", "whisper", "message"),
+                List.of("w", "whisper", "message", "tell"),
                 "ptc.msg",
                 "§cYou do not have permission to use this command."
-        ).setExecutor(msgcmd);
+        ).setExecutor(new MsgCommand());
 
         MultiLib.onString(this, "rift.ptc:reload-config", data -> {
             logger.info("Received message to reload config for PTC plugin.");
