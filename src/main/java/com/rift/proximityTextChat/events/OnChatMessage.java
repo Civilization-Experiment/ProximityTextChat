@@ -2,6 +2,7 @@ package com.rift.proximityTextChat.events;
 
 import com.github.puregero.multilib.MultiLib;
 import com.rift.proximityTextChat.Config;
+import com.rift.proximityTextChat.commands.ConversationHandler;
 import com.rift.proximityTextChat.renderer.TextComponentNodeRenderer;
 import io.papermc.paper.event.player.AsyncChatEvent;
 import net.kyori.adventure.text.Component;
@@ -70,8 +71,8 @@ public class OnChatMessage implements Listener {
                 // All players in range see the original message
                 receiver.sendMessage(formattedMessageUsers);
                 receivers.getAndIncrement();
-            } else if (receiver.isOp()) {
-                // All ops (even if not in range) see a special grayed out message
+            } else if (receiver.isOp() && !ConversationHandler.isPlayerLocalChatting(receiver)) {
+                // All ops not in local chat (even if not in range) see a special grayed out message
                 receiver.sendMessage(formattedMessageOperators);
             }
 

@@ -2,6 +2,7 @@ package com.rift.proximityTextChat.commands;
 
 import com.github.puregero.multilib.MultiLib;
 import com.rift.proximityTextChat.renderer.TextComponentNodeRenderer;
+import net.kyori.adventure.bossbar.BossBar;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -15,6 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
@@ -24,6 +26,23 @@ public class ConversationHandler {
     public record ConversationReceiver(boolean isOffline, Player sender) {}
 
     private static final HashMap<Player, Player> conversations = new HashMap<>();
+    private static final HashSet<UUID> localChatPlayers = new HashSet<>();
+
+    private static final BossBar localChatBossbar = BossBar.bossBar(Component.text("You are in local chat!"), 1.0f, BossBar.Color.BLUE, BossBar.Overlay.NOTCHED_6);
+
+    public static boolean isPlayerLocalChatting(Player player) {
+        return localChatPlayers.contains(player.getUniqueId());
+    }
+
+    public static void togglePlayerLocalChatting(Player player) {
+        if (isPlayerLocalChatting(player)) {
+            localChatPlayers.remove(player.getUniqueId());
+            player.hideBossBar(localChatBossbar);
+        } else {
+            localChatPlayers.add(player.getUniqueId());
+            player.showBossBar(localChatBossbar);
+        }
+    }
 
     public static void finallyWhisper(Player sender, Player target, String rawMessage) {
         TextComponent formattedMessage = formatMsg(rawMessage);
@@ -53,7 +72,7 @@ public class ConversationHandler {
         logger.info("{} whispers to {} » {}", sender.getName(), target.getName(), rawMessage);
 
         MultiLib.getAllOnlinePlayers().stream()
-                .filter(player -> player.isOp() && player != sender && player != target)
+                .filter(player -> player.isOp() && !ConversationHandler.isPlayerLocalChatting(player) && player != sender && player != target)
                 .forEach(player -> player.sendMessage(messageToOperators));
     }
 
@@ -109,5 +128,6 @@ public class ConversationHandler {
     public static void clearConversationsOf(Player sender) {
         MultiLib.notify("rift.ptc:clearConversationsOf", sender.getUniqueId().toString());
         conversations.remove(sender);
+        localChatPlayers.remove(sender.getUniqueId());
     }
 }

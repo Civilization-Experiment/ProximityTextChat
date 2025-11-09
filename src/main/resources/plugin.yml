@@ -8,6 +8,12 @@ commands:
     usage: /reloadPTC
     permission: ptc.use
     permission-message: §cYou do not have permission to use this command.
+  localchat:
+    description: Toggle local chat
+    usage: /localchat
+    aliases: [lc]
+    permission: ptc.use
+    permission-message: §cYou do not have permission to use this command.
   msg:
     description: Sends a private msg to a player
     usage: /msg <player> <message>

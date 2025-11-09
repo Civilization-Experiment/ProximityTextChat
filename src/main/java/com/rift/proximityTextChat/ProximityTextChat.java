@@ -41,6 +41,16 @@ public final class ProximityTextChat extends JavaPlugin {
 
         CommandRegistrar.register(
                 this,
+                "localchat",
+                "Toggle local chat",
+                "/localchat",
+                List.of("lc"),
+                "ptc.use",
+                "§cYou do not have permission to use this command."
+        ).setExecutor(new LocalChatCommand());
+
+        CommandRegistrar.register(
+                this,
                 "reply",
                 "Reply to whisper",
                 "/reply <message>",
